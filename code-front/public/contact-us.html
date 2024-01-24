@@ -18,6 +18,35 @@
           padding-top: 70px; /* Adjust according to your navigation bar height */
         }
       }
+        h1{
+          padding: 15px;
+          font-size: 1.5rem;
+        }
+        label{
+          padding-left: 50px;
+          font-size: 1rem;
+        }
+        input{
+          margin: 10px 50px;
+          padding: 5px;
+          width: 300px;
+        }
+        button{
+          margin-left: 50px;
+          margin-top: 10px;
+          padding: 5px;
+          font-size: 1rem;
+            
+        }
+        button:hover{
+          background-color: rgb(44, 44, 44);
+          color: white;
+          transition: 0.3s;
+          cursor: pointer;
+        }
+        textarea{
+          margin-left: 50px;
+        }
     </style>
   </head>
 
@@ -45,29 +74,20 @@
     </div>
   </nav>
   
-  <!-- Header -->
-  <header class="container-fluid text-center mt-5">
-    <h1>Welcome to Your Website</h1>
-    <p>A short description of your website goes here.</p>
-  </header>
-  
-  <!-- Main Content -->
-  <section class="container mt-4">
-    
-    <div class="row">
-      
-        <div class="col-md-10">
-        <h2>Main Content</h2>
-        <p id="main_p_content" ></p>
-    </div>
 
-    <div class="col-md-2">
-        <h2>Side Content</h2>
-        <p>Your side content goes here.</p>
-    </div>
-    
-  </div>
-  </section>
+  <!-- Main Content -->
+
+  <h1>Add a new profile here</h1>
+    <form>
+        <label for="fullname">Full Name:</label> <br />
+        <input type="text" name="fullname" id="fullName" placeholder="Enter your Full Name"> <br />
+        <label for="email">Email Address:</label> <br />
+        <input type="text" name="email" id="emailAddress" placeholder="Enter your Email Address"> <br />
+        <label for="message">Message:</label><br />
+        <textarea name="message" id="textfield" cols="20"></textarea><br />
+       
+    <button type="button" id="formSubmit" onclick="addProfile()">Add Profile</button>
+    </form>
   
   <!-- Footer -->
   <footer class="container-fluid text-center mt-5">
@@ -75,25 +95,41 @@
   </footer>
   
   <!-- Bootstrap JS and jQuery (required for Bootstrap) -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
   
   
   <script>
+    function addProfile(){
+        
+        const firstname = document.getElementById('fullName').value;
+        const email = document.getElementById('emailAddress').value;
+        const message= document.getElementById('textfield').value;
 
-async function loadHomePageContent() {
+        const data = [
+        {
+            firstname: firstname,
+            email: email,
+            message: message,
+        }
+        ]
+        console.log(data);
 
-    const result = await fetch('http://localhost:5000/page-content/contact'); //requesting
-    const data = await result.json();
-
-    document.getElementById('main_p_content').innerHTML = data;
-
-}
-
-loadHomePageContent();
-
-
-  </script>
+        fetch('http://localhost:5000/contact-us/', 
+            {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+      }
+    </script>
 </body>
 </html>

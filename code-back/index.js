@@ -143,14 +143,14 @@ app.get('/delete-user/:userId', (req, res)=>{
     
 })
  
-app.post('/registration', (req, res)=>{
+/app.post('/registration', (req, res)=>{
     let firstname = req.body.firstname;
     let lastname = req.body.lastname;
     let phone = req.body.phone;
     let address = req.body.address;
     let email = req.body.email;
 
-    idCoount = profileDB.length + 1;
+//   idCoount = profileDB.length + 1;
     const newRecord = {
         id: idCoount,
         firstname: firstname,
@@ -292,7 +292,6 @@ app.get('/test/:num1/:num2', (req, res) => {
 }
 );
 
-
 app.post('/save-data', (req, res) => {
     let fname = req.body.firstname;
     let lname = req.body.lastname;
@@ -313,6 +312,38 @@ app.put('/put-data/:id', (req, res) => {
 
 app.delete('/delete/record/:id', (req, res)=>{
   
+})
+
+app.post('/contact-us', (req, res)=>{
+    let fullname = req.body.fullName;
+    let email = req.body.email;
+    let message = req.body.message;
+
+    const newProfile = [
+        {
+        fullname: fullname,
+        email: email,
+        message: message,
+        }
+
+    ]
+    const newUserRecord = {
+        fullname: fullname,
+        email: email,
+        message: message,
+    }
+
+    
+    const saveStatus = profileDB.push(newUserRecord);  
+   if (saveStatus) {
+     res.status(200).json(
+        { code: "success", msg:"registration successful" }   
+     )
+   } else {
+     res.status(401).json(
+        { code: "failed", msg:"registration error in saving" }   
+     )
+   }
 })
 
 app.listen(5000)
